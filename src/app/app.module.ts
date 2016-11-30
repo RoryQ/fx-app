@@ -6,12 +6,14 @@ import { HttpModule } from '@angular/http';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { AppComponent } from './app.component';
-import { SourcePanelComponent } from './source-panel.component';
+import { SourceComponent } from './source.component';
+import { SourcesPanelComponent } from './sources-panel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SourcePanelComponent,
+    SourceComponent,
+    SourcesPanelComponent,
   ],
   imports: [
     BrowserModule,

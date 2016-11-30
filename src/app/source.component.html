@@ -1,0 +1,16 @@
+<div class="source-container">
+  <div class="source-input-label"> {{selectedCurrencyCode}} Amount: </div>
+  <div> <input class="source-amount" type="number" [(ngModel)]="amountValue" > </div>
+  <div>
+    <kendo-dropdownlist 
+        [data]="dropdownItems" 
+        [filterable]="true" 
+        [textField]="'displayName'" 
+        [valueField]="'code'" 
+        (filterChange)="handleFilter($event)"
+        [(value)]="selectedCurrencyCode"
+        [valuePrimitive]="true"
+        >
+    </kendo-dropdownlist>
+  </div>
+</div>

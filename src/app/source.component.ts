@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit } from '@angular/core';
 import { Currency } from './currency';
 
 @Component({
@@ -7,24 +7,24 @@ import { Currency } from './currency';
   styleUrls: ['./source.component.scss']
 })
 export class SourceComponent implements OnInit {
-    @Input() availableRates: Array<Currency> = [];
+    @Input()
+    availableRates: Array<Currency> = [];
 
     public dropdownItems: Array<Currency>;
 
-    private _selectedCurrencyCode:string;
-    @Input() set selectedCurrencyCode(val: string) {
-        this._selectedCurrencyCode = val;
-        this.handleFilter(val || "");
-        this.changed.emit(val);
-    }
-
-    get selectedCurrencyCode() {
+    private _selectedCurrencyCode: string;
+    public get selectedCurrencyCode(): string {
         return this._selectedCurrencyCode;
     }
 
-    @Output() changed:  EventEmitter<any> = new EventEmitter();
+    @Input()
+    public set selectedCurrencyCode(val: string) {
+        this._selectedCurrencyCode = val;
+        this.handleFilter(val || '');
+    }
 
-    @Input() amountValue: number;
+    @Input()
+    amountValue: number;
 
     ngOnInit() {
         this.dropdownItems = this.availableRates.slice();

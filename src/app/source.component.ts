@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Currency } from './currency';
 
 @Component({
@@ -17,10 +17,12 @@ export class SourceComponent implements OnInit {
         return this._selectedCurrencyCode;
     }
 
+    @Output() selectedCurrencyCodeChange2: EventEmitter<string> = new EventEmitter<string>();
+
     @Input()
     public set selectedCurrencyCode(val: string) {
         this._selectedCurrencyCode = val;
-        this.handleFilter(val || '');
+        this.selectedCurrencyCodeChange2.emit(val);
     }
 
     @Input()
@@ -31,6 +33,6 @@ export class SourceComponent implements OnInit {
     }
 
     handleFilter(value) {
-        this.dropdownItems = this.availableRates.filter((s) => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+        this.dropdownItems = this.availableRates.filter((s) => s.displayName.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
 }

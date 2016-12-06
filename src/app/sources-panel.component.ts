@@ -3,21 +3,7 @@ import { Currency } from './currency';
 
 @Component({
   selector: 'sources-panel',
-  template: `
-  <div>
-    <fx-source [availableRates]="availableRates" 
-      [amountValue]="leftAmount" 
-      [selectedCurrencyCode]="leftCurrencyCode" 
-      (change)="recalcRates($event.target.value, 'from')" 
-      > 
-    </fx-source> 
-    <fx-source [availableRates]="availableRates"
-      [amountValue]="rightAmount" 
-      [selectedCurrencyCode]="rightCurrencyCode" 
-      (change)="recalcRates($event.target.value, 'to')" > 
-    </fx-source> 
-  </div>
-  `,
+  templateUrl: 'sources-panel.component.html',
   styles: [`
   `]
 })
@@ -77,21 +63,28 @@ export class SourcesPanelComponent implements OnInit {
       return code != null && this.exchangeRates[code] != null;
     }
 
-    public recalcRates(value, direction) {
-      console.log(value);
+    public setAmount(value, direction) {
+      if (direction === 'from') {
+        this.leftAmount = parseFloat(value);
+      }
+
+      if (direction === 'to') {
+        this.rightAmount = parseFloat(value);
+      }
+    }
+
+    public recalcRates(direction) {
       if (this.validCode(this.leftCurrencyCode) && this.validCode(this.rightCurrencyCode)) {
         if (direction === 'from') {
-          this.leftAmount = parseFloat(value);
           this.rightAmount = this.leftAmount * this.ltrRate;
         }
         if (direction === 'to') {
-          this.rightAmount = parseFloat(value);
           this.leftAmount = this.rightAmount * this.rtlRate;
         }
       }
     }
 
     public ngOnInit() {
-      this.recalcRates(this.leftAmount, 'from');
+      this.recalcRates('from');
     }
 }

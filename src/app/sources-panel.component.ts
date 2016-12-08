@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Currency } from './currency';
+import { FxRatesService } from './fx-rates.service';
+import {Dictionary} from './util-types';
+import './rxjs-operators';
 
 @Component({
   selector: 'sources-panel',
@@ -8,15 +11,16 @@ import { Currency } from './currency';
   `]
 })
 export class SourcesPanelComponent implements OnInit {
-    public availableRates: Array<Currency> = [
-        new Currency('Euro', 'EUR' ),
-        new Currency('Pounds Sterling', 'GBP'),
-        new Currency('US Dollars', 'USD' )
-    ];
-
+    public availableCurrencies: Currency[];
+    public spotRates: Dictionary<number>;
+    public errorMessage: string;
     private _leftAmount: number = 100;
-    private _rightAmount: number = 0;
+    private _rightAmount: number = 100;
 
+    public leftCurrencyCode: string;
+    public rightCurrencyCode: string;
+
+    constructor(private fxService: FxRatesService){}
 
     public get leftAmount(): number{
       return +this._leftAmount.toFixed(2);
@@ -33,26 +37,16 @@ export class SourcesPanelComponent implements OnInit {
       this._rightAmount = val;
     }
 
-    public leftCurrencyCode: string = 'EUR';
-    public rightCurrencyCode: string = 'GBP';
-
-    public exchangeRates = {
-      'EUR': 1,
-      'GBP': 0.85250,
-      'USD': 1.0635,
-      base: 'EUR'
-    };
-
     private get ltrRate(): number {
-      if (this.leftCurrencyCode === this.exchangeRates.base){
-        return this.exchangeRates[this.rightCurrencyCode];
+      if (this.leftCurrencyCode === this.fxService.base){
+        return this.spotRates[this.rightCurrencyCode];
       }
 
-      if (this.rightCurrencyCode === this.exchangeRates.base){
-        return 1.0 / this.exchangeRates[this.leftCurrencyCode];
+      if (this.rightCurrencyCode === this.fxService.base){
+        return 1.0 / this.spotRates[this.leftCurrencyCode];
       }
 
-      return 1.0 / this.exchangeRates[this.leftCurrencyCode] * this.exchangeRates[this.rightCurrencyCode];
+      return 1.0 / this.spotRates[this.leftCurrencyCode] * this.spotRates[this.rightCurrencyCode];
     }
 
     private get rtlRate(): number {
@@ -60,10 +54,14 @@ export class SourcesPanelComponent implements OnInit {
     }
 
     private validCode(code): boolean {
-      return code != null && this.exchangeRates[code] != null;
+      return code != null && this.spotRates[code] != null;
     }
 
     public setAmount(value, direction) {
+      if (isNaN(Number(value))) {
+        return;
+      }
+
       if (direction === 'from') {
         this.leftAmount = parseFloat(value);
       }
@@ -84,7 +82,18 @@ export class SourcesPanelComponent implements OnInit {
       }
     }
 
+    private getRatesAndCurrencies() {
+      this.fxService.getRates().subscribe(
+        ratesTuple => {
+          this.spotRates = ratesTuple[0];
+          this.availableCurrencies = ratesTuple[1];
+        },
+        error => this.errorMessage = <any>error
+        );
+    }
+
     public ngOnInit() {
+      this.getRatesAndCurrencies();
       this.recalcRates('from');
     }
 }

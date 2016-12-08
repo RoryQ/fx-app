@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { SourceComponent } from './source.component';
 import { SourcesPanelComponent } from './sources-panel.component';
 
+import {FxRatesService} from './fx-rates.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,7 @@ import { SourcesPanelComponent } from './sources-panel.component';
     HttpModule,
     DropDownsModule
   ],
-  providers: [],
+  providers: [FxRatesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

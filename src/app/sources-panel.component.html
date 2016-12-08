@@ -1,8 +1,8 @@
 <div>
-  <fx-source [availableRates]="availableRates" [amountValue]="leftAmount" [selectedCurrencyCode]="leftCurrencyCode" (change)="setAmount($event.target.value, 'from'); recalcRates('from')"
+  <fx-source [availableCurrencies]="availableCurrencies" [amountValue]="leftAmount" [selectedCurrencyCode]="leftCurrencyCode" (change)="setAmount($event.target.value, 'from'); recalcRates('from')"
     (selectedCurrencyCodeChange2)="leftCurrencyCode=$event; recalcRates('from')">
   </fx-source>
-  <fx-source [availableRates]="availableRates" [amountValue]="rightAmount" [selectedCurrencyCode]="rightCurrencyCode" (change)="setAmount($event.target.value, 'to'); recalcRates('to')"
+  <fx-source [availableCurrencies]="availableCurrencies" [amountValue]="rightAmount" [selectedCurrencyCode]="rightCurrencyCode" (change)="setAmount($event.target.value, 'to'); recalcRates('to')"
     (selectedCurrencyCodeChange2)="rightCurrencyCode=$event; recalcRates('to')">
   </fx-source>
 </div>

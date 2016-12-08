@@ -1,4 +1,4 @@
-import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Input, Component, Output, EventEmitter} from '@angular/core';
 import { Currency } from './currency';
 
 @Component({
@@ -6,9 +6,14 @@ import { Currency } from './currency';
   templateUrl: './source.component.html',
   styleUrls: ['./source.component.scss']
 })
-export class SourceComponent implements OnInit {
+export class SourceComponent {
+    private _availableCurrencies: Currency[];
+
     @Input()
-    availableRates: Array<Currency> = [];
+    public set availableCurrencies(val: Array<Currency>){
+        this._availableCurrencies = val || new Array<Currency>(0);
+        this.dropdownItems = this._availableCurrencies.slice();
+    }
 
     public dropdownItems: Array<Currency>;
 
@@ -21,6 +26,7 @@ export class SourceComponent implements OnInit {
 
     @Input()
     public set selectedCurrencyCode(val: string) {
+        console.log(val);
         this._selectedCurrencyCode = val;
         this.selectedCurrencyCodeChange2.emit(val);
     }
@@ -28,11 +34,7 @@ export class SourceComponent implements OnInit {
     @Input()
     amountValue: number;
 
-    ngOnInit() {
-        this.dropdownItems = this.availableRates.slice();
-    }
-
     handleFilter(value) {
-        this.dropdownItems = this.availableRates.filter((s) => s.displayName.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+        this.dropdownItems = this._availableCurrencies.filter((s) => s.displayName.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
 }

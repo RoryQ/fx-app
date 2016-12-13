@@ -9,7 +9,7 @@ const cc = require('currency-codes');
 
 @Injectable()
 export class FxRatesService {
-    _ecbUrl: string = './app/eurofxref-daily.xml';
+    _ecbUrl: string = './eurofxref-daily.xml';
 
     constructor(private http: Http) { }
 

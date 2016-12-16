@@ -1,7 +1,7 @@
 <div class="source-container">
   <div class="source-input-label is-unselectable"> {{selectedCurrencyCode}} Amount: </div>
   <div class="source-input-currency-icon"> <i class="fa fa-{{selectedCurrencyCode}}" aria-hidden="true"></i> </div>
-  <div> <input class="source-amount" type="number" [(ngModel)]="amountValue" > </div>
+  <div> <input class="source-amount" type="number" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="amountValue" > </div>
   <div>
     <kendo-dropdownlist 
         [data]="dropdownItems" 

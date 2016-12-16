@@ -10,6 +10,8 @@ const cc = require('currency-codes');
 @Injectable()
 export class FxRatesService {
     _ecbUrl: string = './eurofxref-daily.xml';
+    private _date: string;
+
 
     constructor(private http: Http) { }
 
@@ -22,10 +24,11 @@ export class FxRatesService {
     dailyRatesXmlToRates(xmlString): [Dictionary<number>, Currency[]] {
         const currencies: Currency[] = new Array<Currency>();
         const rates = {'EUR': 1};
+        let date = this._date;
         currencies.push(new Currency(cc.code('EUR').currency, 'EUR'));
-
         parseString(xmlString.text(), function XmlToRates(err, result){
             const xmlRates = result['gesmes:Envelope']['Cube'][0]['Cube'][0]['Cube'];
+            date = result['gesmes:Envelope'].Cube[0].Cube[0]['$'].time;
 
             for (let rate of xmlRates){
                 let ccode = rate['$']['currency']
@@ -34,14 +37,6 @@ export class FxRatesService {
             }
         });
     return [rates, currencies];
-    }
-
-    resolveCurrencies(currencies: Currency[]){};
-
-    getAvailableCurrencies(): Promise<Currency[]> {
-        return new Promise<Currency[]>((resolve, reject) => {
-            resolve = this.resolveCurrencies;
-        });
     }
 
     private handleError (error: Response | any) {

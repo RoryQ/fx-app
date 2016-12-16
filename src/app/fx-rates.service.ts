@@ -20,8 +20,9 @@ export class FxRatesService {
     }
 
     dailyRatesXmlToRates(xmlString): [Dictionary<number>, Currency[]] {
-        const rates = {'EUR': 1};
         const currencies: Currency[] = new Array<Currency>();
+        const rates = {'EUR': 1};
+        currencies.push(new Currency(cc.code('EUR').currency, 'EUR'));
 
         parseString(xmlString.text(), function XmlToRates(err, result){
             const xmlRates = result['gesmes:Envelope']['Cube'][0]['Cube'][0]['Cube'];

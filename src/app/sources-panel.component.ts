@@ -6,7 +6,7 @@ import './rxjs-operators';
 
 @Component({
   selector: 'sources-panel',
-  templateUrl: 'sources-panel.component.html',
+  templateUrl: './sources-panel.component.html',
   styles: [`
   `]
 })

@@ -26,7 +26,6 @@ export class SourceComponent {
 
     @Input()
     public set selectedCurrencyCode(val: string) {
-        console.log(val);
         this._selectedCurrencyCode = val;
         this.selectedCurrencyCodeChange2.emit(val);
     }

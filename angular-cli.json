@@ -17,7 +17,8 @@
         "safari-pinned-tab.svg",
         "android-chrome-192x192.png",
         "android-chrome-256x256.png",
-        "manifest.json"
+        "manifest.json",
+        "cache.manifest"
       ],
       "index": "index.html",
       "main": "main.ts",

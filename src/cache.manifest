@@ -1,0 +1,14 @@
+CACHE MANIFEST
+
+CACHE:
+https://s3-ap-southeast-2.amazonaws.com/aws-ecb-rates-mirror/eurofxref-daily.xml
+vendor.bundle.js
+styles.bundle.css
+inline.bundle.js
+main.bundle.js
+favicon-16x16.png
+favicon-32x32.png
+index.html
+
+NETWORK:
+*
